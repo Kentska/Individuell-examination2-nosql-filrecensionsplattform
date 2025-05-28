@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import auth from '../middleware/auth'; // Din JWT-auth-middleware
+
 const router = express.Router();
-const auth = require('../middleware/auth'); // Din JWT-auth-middleware
 
 // Publik route - kräver ingen inloggning
 router.get('/profile/public/:userId', (req, res) => {
@@ -20,4 +21,4 @@ router.put('/profile', auth, (req, res) => {
   res.send('Profil uppdaterad!');
 });
 
-module.exports = router;
+export default router;
