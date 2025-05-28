@@ -7,39 +7,72 @@ import Review from '../models/Review.js';
 const router = express.Router();
 
 // Lägg till en ny film (kräver admin)
-router.post('/movies', auth, authorizeRole('admin'), (req, res) => {
-  // ...lägg till film...
-  res.send('Film tillagd');
+router.post('/movies', auth, authorizeRole('admin'), async (req, res) => {
+  try{
+	const { title, director, releaseDate, genre } = req.body;
+	const newMovie = new Movie({ title, director, releaseDate, genre });
+	await newMovie.save();
+	res.status(201).json({message:'Film tillagd', movie: newMovie});
+  }catch (err) {
+	res.status(500).send({message:'Kunde inte lägga till film', error: err.message});
+  }
 });
 
+
 // Hämta alla filmer
-router.get('/movies', (req, res) => {
-  // ...hämta filmer...
-  res.send('Lista med filmer');
+router.get('/movies', async (req, res) => {
+  try {
+	const movies = await Movie.find();
+	res.json(movies);
+  } catch (err) {
+	res.status(500).json({ message: 'Kunde inte hämta filmer', error: err.message });
+  }
 });
 
 // Hämta detaljer för en specifik film
-router.get('/movies/:id', (req, res) => {
-  // ...hämta film...
-  res.send(`Detaljer för film ${req.params.id}`);
+router.get('/movies/:id', async (req, res) => {
+ try {
+	const movie = await Movie.findById(req.params.id);
+	if (!movie)
+	  return res.status(404).json({ message: 'Film hittades inte' });
+  res.json(movie);
+	} catch (err) {
+	res.status(500).json({ message: 'Kunde inte hämta film', error: err.message });
+	}
 });
 
 // Uppdatera en specifik film (kräver admin)
-router.put('/movies/:id', auth, authorizeRole('admin'), (req, res) => {
-  // ...uppdatera film...
-  res.send(`Film ${req.params.id} uppdaterad`);
+router.put('/movies/:id', auth, authorizeRole('admin'), async (req, res) => {
+  try {
+	const updateMovie = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true });
+	if (!updateMovie)
+	  return res.status(404).json({ message: 'Film hittades inte' });
+	res.json({message:'Film uppdaterad', movie: updateMovie});
+  } catch (err) {
+	res.status(500).json({ message: 'Kunde inte uppdatera film', error: err.message });
+  }
 });
 
 // Ta bort en specifik film (kräver admin)
-router.delete('/movies/:id', auth, authorizeRole('admin'), (req, res) => {
-  // ...ta bort film...
-  res.send(`Film ${req.params.id} borttagen`);
+router.delete('/movies/:id', auth, authorizeRole('admin'), async (req, res) => {
+  try {
+	const deletedMovie = await Movie.findByIdAndDelete(req.params.id);
+	if (!deletedMovie)
+	  return res.status(404).json({ message: 'Film hittades inte' });
+	res.json({message:'Film borttagen', movie: deletedMovie});
+  } catch (err) {
+	res.status(500).json({ message: 'Kunde inte ta bort film', error: err.message });
+  }
 });
 
 // Hämta alla recensioner för en specifik film
-router.get('/movies/:id/reviews', (req, res) => {
-  // ...hämta recensioner...
-  res.send(`Recensioner för film ${req.params.id}`);
+router.get('/movies/:id/reviews', async (req, res) => {
+  try {
+	const reviews = await Review.find({ movieId: req.params.id });
+	res.json(reviews);
+  } catch (err) {
+	res.status(500).json({ message: 'Kunde inte hämta recensioner', error: err.message });
+  }
 });
 
 // Hämta alla filmer och deras genomsnittliga betyg
