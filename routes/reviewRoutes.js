@@ -5,12 +5,30 @@ import Review from '../models/Review.js';
 const router = express.Router();
 
 // Lägg till en ny recension (kräver inloggning)
+// POST http://localhost:3000/reviews
+// 
+// 1. Logga in via /login och kopiera JWT-token från svaret.
+// 2. I Postman, välj POST och ange URL ovan.
+// 3. Gå till fliken "Headers" och lägg till:
+//      Key: Authorization
+//      Value: Bearer DIN_JWT_TOKEN
+// 4. Gå till fliken "Body", välj "raw" och "JSON".
+// 5. Skicka t.ex. detta i bodyn:
+/*
+{
+  "movieId": "FILMENS_ID",
+  "rating": 8,
+  "comment": "Riktigt bra film!"
+}
+*/
+// 6. Klicka på "Send".
+// 7. Du får svar: { "message": "Recension tillagd", review: {...} }
 router.post('/reviews', auth, async (req, res) => {
   try {
 	const { movieId, rating, comment } = req.body;
 	const newReview = new Review({
-	  user: req.user._id,
-	  movie: movieId,
+	  userId: req.user._id,
+	  movieId: movieId,
 	  rating,
 	  comment
 	});
@@ -22,6 +40,25 @@ router.post('/reviews', auth, async (req, res) => {
 });
 
 // Hämta alla recensioner
+// GET http://localhost:3000/reviews
+//
+// 1. I Postman, välj GET och ange URL ovan.
+// 2. Ingen Authorization eller body behövs (om du inte har skyddat denna route).
+// 3. Klicka på "Send".
+// 4. Du får svar: en array med alla recensioner.
+/*
+[
+  {
+    "_id": "123...",
+    "movieId": "456...",
+    "userId": "789...",
+    "rating": 8,
+    "comment": "Riktigt bra film!",
+    ...
+  },
+  ...
+]
+*/
 router.get('/reviews', async (req, res) => {
   try{
 	const reviews = await Review.find();
@@ -32,6 +69,23 @@ router.get('/reviews', async (req, res) => {
 });
 
 // Hämta detaljer för en specifik recension
+// GET http://localhost:3000/reviews/:id
+//
+// 1. I Postman, välj GET och ange URL ovan.
+//    Byt ut :id mot det faktiska recension-ID:t, t.ex. http://localhost:3000/reviews/665f1b... 
+// 2. Ingen Authorization eller body behövs (om du inte har skyddat denna route).
+// 3. Klicka på "Send".
+// 4. Du får svar: ett objekt med recensionens detaljer.
+/*
+{
+  "_id": "665f1b...",
+  "movieId": "665f1a...",
+  "userId": "665f19...",
+  "rating": 8,
+  "comment": "Riktigt bra film!",
+  ...
+}
+*/
 router.get('/reviews/:id', async (req, res) => {
   try {
 	const review = await Review.findById(req.params.id);
@@ -44,6 +98,24 @@ router.get('/reviews/:id', async (req, res) => {
 });
 
 // Uppdatera en specifik recension (kräver inloggning)
+// PUT http://localhost:3000/reviews/:id
+//
+// 1. Logga in via /login och kopiera JWT-token från svaret.
+// 2. I Postman, välj PUT och ange URL ovan.
+//    Byt ut :id mot det faktiska recension-ID:t, t.ex. http://localhost:3000/reviews/665f1b...
+// 3. Gå till fliken "Headers" och lägg till:
+//      Key: Authorization
+//      Value: Bearer DIN_JWT_TOKEN
+// 4. Gå till fliken "Body", välj "raw" och "JSON".
+// 5. Skicka t.ex. detta i bodyn:
+/*
+{
+  "rating": 9,
+  "comment": "Uppdaterad kommentar!"
+}
+*/
+// 6. Klicka på "Send".
+// 7. Du får svar: { "message": "Recension uppdaterad", review: {...} }
 router.put('/reviews/:id', auth, async (req, res) => {
   try {
 	const updatedReview = await Review.findOneAndUpdate(
@@ -60,6 +132,17 @@ router.put('/reviews/:id', auth, async (req, res) => {
 });
 
 // Ta bort en specifik recension (kräver inloggning)
+// DELETE http://localhost:3000/reviews/:id
+//
+// 1. Logga in via /login och kopiera JWT-token från svaret.
+// 2. I Postman, välj DELETE och ange URL ovan.
+//    Byt ut :id mot det faktiska recension-ID:t, t.ex. http://localhost:3000/reviews/665f1b...
+// 3. Gå till fliken "Headers" och lägg till:
+//      Key: Authorization
+//      Value: Bearer DIN_JWT_TOKEN
+// 4. Klicka på "Send".
+// 5. Du får svar: { "message": "Recension borttagen", review: {...} }
+
 router.delete('/reviews/:id', auth, async (req, res) => {
   try {
 	const deletedReview = await Review.findOneAndDelete({

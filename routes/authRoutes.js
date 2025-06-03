@@ -8,6 +8,21 @@ dotenv.config();
 const router = express.Router();
 
 // Registrera en ny användare
+// POST http://localhost:3000/register
+//
+// 1. I Postman, välj POST och ange URL ovan.
+// 2. Gå till fliken "Body", välj "raw" och "JSON".
+// 3. Skicka t.ex. detta i bodyn:
+/*
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "password": "hemligt",
+  "role": "user" // valfritt, sätts till "user" om du inte skickar med det
+}
+*/
+// 4. Klicka på "Send".
+// 5. Du får svar: { "message": "Användare registrerad", user: {...} }
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
@@ -25,6 +40,19 @@ router.post('/register', async (req, res) => {
 });
 
 // Logga in en användare
+// POST http://localhost:3000/login
+//
+// 1. I Postman, välj POST och ange URL ovan.
+// 2. Gå till fliken "Body", välj "raw" och "JSON".
+// 3. Skicka t.ex. detta i bodyn:
+/*
+{
+  "email": "testuser@example.com",
+  "password": "hemligt"
+}
+*/
+// 4. Klicka på "Send".
+// 5. Du får svar: { "message": "Inloggad", "token": "..." }
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
