@@ -1,5 +1,6 @@
 import movieRoutes from './routes/movieRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import express from 'express';
 import authRoutes from './routes/authRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use(movieRoutes);
 app.use(reviewRoutes);
+app.use(userRoutes); 
 app.use(authRoutes);
 app.use(adminRoutes);
 
