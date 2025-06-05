@@ -58,7 +58,6 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user || user.password !== password) {
-      // I verklig app: använd hashad lösenordskontroll!
       return res.status(401).json({ message: 'Fel e-post eller lösenord' });
     }
 
