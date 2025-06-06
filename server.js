@@ -4,10 +4,8 @@ import userRoutes from './routes/userRoutes.js';
 import express from 'express';
 import authRoutes from './routes/authRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-import mongoose  from 'mongoose';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
-import authorizeRole from './middleware/authorizeRole.js';
 
 dotenv.config();
 connectDB();
