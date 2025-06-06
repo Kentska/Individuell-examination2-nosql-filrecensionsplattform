@@ -17,7 +17,7 @@ JWT_SECRET=dinhemligaJWTnyckel
 PORT=3000
 
 Starta servern
-npm start  "justeras"
+npm start
 
 Autentisering & Roller
 Registrera: /register
