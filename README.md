@@ -4,26 +4,28 @@ Detta projekt är en backend för en filrecensionsplattform där användare kan 
 logga in, recensera filmer och administratörer kan hantera filmer. Byggt med Node.js, Express och MongoDB.
 
 Komma igång.
+Skapa en databas i MongoDB Atlas eller lokalt.
+Kopiera din anslutningssträng (URI) och lägg in i .env
 Klona projektet
 git clone <repo-url>
 cd Individuell-examination2-nosql-filrecensionsplattform
 
-Installera beroenden  
+Installera beroenden:  
 npm install
 
 Skapa .env-fil och lägg till i projektroten.
-Se exempel : MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>/<db>
+Se exempel: MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>/<db>
 JWT_SECRET=dinhemligaJWTnyckel
 PORT=3000
 
-Starta servern
+Starta servern:
 npm start
 
 Autentisering & Roller
 Registrera: /register
 Logga in: /login (får JWT-token)
 Skyddade endpoints: Skicka JWT-token i header:
-Authorization: Bear<vscode_annotation details=''>er</vscode_annotation> DIN_JWT_TOKEN
+Authorization: Bearer DIN_JWT_TOKEN
 Roller:
 user (standard)
 admin (kan lägga till/uppdatera/ta bort filmer)
@@ -68,6 +70,9 @@ Express
 Mongoose
 dotenv
 jsonwebtoken
+om man vill så går det bra att lägga till Bcrypt
+för att hasha och salta lösenord. 
+Gör applikationen mycket säkrare.
 
 
 
