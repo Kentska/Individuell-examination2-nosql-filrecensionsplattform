@@ -15,7 +15,7 @@ const router = express.Router();
 // 4. Klicka på "Send".
 // 5. Du får svar: "Endast admin!" om du är admin, annars får du 403 Forbidden.
 router.get('/admin', auth, authorizeRole('admin'), (req, res) => {
-  res.send('Endast admin!');
+  res.send('Hej och välkommen admin!');
 });
 
 export default router;
