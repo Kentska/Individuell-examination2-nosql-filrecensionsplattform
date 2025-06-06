@@ -1,6 +1,6 @@
 import express from 'express';
 import authorizeRole from'../middleware/authorizeRole.js';
-import auth from'../middleware/auth.js'; // Din JWT-auth-middleware
+import auth from'../middleware/auth.js'; 
 
 const router = express.Router();
 

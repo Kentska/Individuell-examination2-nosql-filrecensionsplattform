@@ -1,6 +1,6 @@
 function authorizeRole(...allowedRoles) {
 	return (req, res, next) => {
-	  const user = req.user; // req.user bör sättas av din auth-middleware (t.ex. efter JWT-verifiering)
+	  const user = req.user; 
 	  if (!user || !allowedRoles.includes(user.role)) {
 		return res.status(403).json({ message: 'Du har ingen behörighet att utföra denna åtgärd' });
 	  }

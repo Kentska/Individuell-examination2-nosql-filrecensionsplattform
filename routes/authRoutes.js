@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: 'E-postadressen är redan registrerad' });
 
-    // Skapa ny användare (lägg till lösenordshantering i verklig app)
+    
     const newUser = new User({ username, email, password, role: role || 'user' });
     await newUser.save();
     res.status(201).json({ message: 'Användare registrerad', user: { username, email, role: newUser.role } });
